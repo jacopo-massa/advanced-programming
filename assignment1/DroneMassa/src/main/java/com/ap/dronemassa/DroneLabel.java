@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ap.dronemassa;
 
 import java.awt.Color;
@@ -11,10 +6,11 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JLabel;
 
 /**
- *
- * @author Jacopo
+ * Extended JLabel, that also can manage listened properties of a Drone.
  */
 public class DroneLabel extends JLabel implements PropertyChangeListener {    
+    
+    // initialized with a random foreground color
     public DroneLabel() {
         super();
         int r = (int) (Math.random() * 256);
@@ -25,8 +21,10 @@ public class DroneLabel extends JLabel implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        System.err.println(evt.getPropertyName());
         switch(evt.getPropertyName()) {
+            /* if a 'loc change' is catched, also the
+             * position of the label is changed
+            */
             case Drone.PROP_LOC_PROPERTY:
             {
                 Position p = (Position) evt.getNewValue();
@@ -35,6 +33,9 @@ public class DroneLabel extends JLabel implements PropertyChangeListener {
                 break;
             }
             
+            /* if a 'fly change' is catched, also the
+             * text of the label is changed, to simulate the stop/start of a drone.
+            */
             case Drone.PROP_FLY_PROPERTY:
             {
                 if((Boolean) evt.getNewValue())

@@ -1,18 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.ap.dronemassa;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.Color;
 
-/**
- *
- * @author Jacopo
- */
+
 public class DroneGUI extends javax.swing.JFrame {
 
     /**
@@ -90,22 +82,23 @@ public class DroneGUI extends javax.swing.JFrame {
         // create a new Drone
         Drone newDrone = new Drone();
         
-        // create a new JLabel
+        // create a new label that follows the movements of the previously created Drone
         DroneLabel droneLabel = new DroneLabel();
         
-        // generate random position and assign it to Drone and Label
+        // generate random position and assign it to the label
         Position p = new Position((int) (Math.random() * (PNL_WIDTH - LBL_WIDTH)), (int) (Math.random() * (PNL_HEIGHT - LBL_HEIGHT)));
-        
         droneLabel.setBounds((int) p.getX(), (int) p.getY(), LBL_WIDTH, LBL_HEIGHT);
-        droneLabel.setVisible(true);
-        droneLabel.setOpaque(true);
-        droneLabel.setBackground(Color.LIGHT_GRAY);
+        
+        /* 
+         * assign a mouse event listener to the label, so that
+         * when we click on it, the associated drone change it's state (FLYING/ NOT FLYING)
+         */
         droneLabel.addMouseListener(new MouseAdapter() 
         {
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                if(newDrone.getFlyProperty())
+                if(newDrone.getFly())
                     newDrone.land();
                 else
                 {
@@ -116,8 +109,14 @@ public class DroneGUI extends javax.swing.JFrame {
                     
             }
         });
+        
+        // add the label as a PropertyChangeListener to the drone's properties
         newDrone.addPropertyChangeListener(droneLabel);
+        
+        // start moving the drone from the same position of the label
         newDrone.takeOff(p);
+        
+        // add the label to the panel and show it
         pnlDrones.add(droneLabel);        
         pnlDrones.repaint();
         
