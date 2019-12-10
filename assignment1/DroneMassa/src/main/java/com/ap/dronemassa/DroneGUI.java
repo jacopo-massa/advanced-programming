@@ -98,15 +98,15 @@ public class DroneGUI extends javax.swing.JFrame {
             @Override
             public void mouseClicked(MouseEvent e)
             {
-                if(newDrone.getFly())
+                newDrone.land();
+                /*if(newDrone.getFly())
                     newDrone.land();
                 else
                 {
                     DroneLabel label = (DroneLabel) e.getSource();
                     Position labelPos = new Position(label.getX(), label.getY());
                     newDrone.takeOff(labelPos);
-                }
-                    
+                }*/ 
             }
         });
         
