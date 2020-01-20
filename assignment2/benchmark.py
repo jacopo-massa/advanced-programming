@@ -146,6 +146,9 @@ and most importantly avoids multiple threads can execute Python code at once.
 PRE_SCRIPT_PATH = "/tmp/pre_script.py"
 POST_SCRIPT_PATH = "/tmp/post_script.py"
 
+PRE_URL = "http://pages.di.unipi.it/corradini/Didattica/AP-19/PROG-ASS/02/pre.py"
+POST_URL = "http://pages.di.unipi.it/corradini/Didattica/AP-19/PROG-ASS/02/post.py"
+
 
 def prepost(pre_url=None, post_url=None):
     if not pre_url or not post_url:
@@ -166,8 +169,10 @@ def prepost(pre_url=None, post_url=None):
     # manage case of connection error or bad response from the server
     except (ConnectionError, Timeout):
         print("Server is down")
+        exit(-1)
     except HTTPError:
         print("Server is not responding correctly")
+        exit(-1)
     else:
         def decorator(fun):
             @functools.wraps(fun)
@@ -185,10 +190,6 @@ def prepost(pre_url=None, post_url=None):
                 return fun_result
             return wrapper_prepost
         return decorator
-
-
-PRE_URL = "http://pages.di.unipi.it/corradini/Didattica/AP-19/PROG-ASS/02/pre.py"
-POST_URL = "http://pages.di.unipi.it/corradini/Didattica/AP-19/PROG-ASS/02/post.py"
 
 
 @prepost(pre_url=PRE_URL, post_url=POST_URL)
