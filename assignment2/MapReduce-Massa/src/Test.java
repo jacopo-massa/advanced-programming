@@ -5,5 +5,10 @@ public class Test {
 
         WordCounter wordCounter = new WordCounter(test_path);
         wordCounter.init();
+        System.out.println("Counting Words - Finished");
+
+        InvertedIndex invertedIndex = new InvertedIndex(test_path);
+        invertedIndex.init();
+        System.out.println("Inverted Index - Finished");
     }
 }

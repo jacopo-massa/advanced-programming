@@ -14,12 +14,14 @@ import java.util.stream.Stream;
 
 public class WordCounter extends MapReduce<String, List<String>, String, Integer, Integer> {
 
+    // root path of the directory containing .txt files to analyze
     private final Path path;
 
+    // Constructor of the class
     public WordCounter(String path) {
         this.path = Paths.get(path);
-        System.out.println(this.path.toAbsolutePath());
     }
+
     @Override
     protected Stream<Pair<String, List<String>>> read() {
         // read data from a file, exploiting the provided Reader.

@@ -11,19 +11,29 @@ public abstract class MapReduce<KIn, VIn, KMap, VMap, VOut> {
     }
 
     public final void init() {
+        // verbose implementation
+
+        // read data from a storage and converting them into key/value pairs.
         Stream<Pair<KIn, VIn>> inputStream = read();
 
+        // process the input pairs and generate zero or more output key/value pairs.
         Stream<Pair<KMap, VMap>> mappedStream = map(inputStream);
 
+        // group the input pairs by the key, generating output key/{list of values} pairs.
         Stream<Pair<KMap, List<VMap>>> combinedStream = combine(mappedStream);
 
+        // iterate through the values that are associated with a key and produce zero or more output key/value pairs.
         Stream<Pair<KMap, VOut>> reducedStream = reduce(combinedStream);
 
+        // write the output on a stable storage.
         write(reducedStream);
 
+
+        // less readable way
         // write(reduce(combine(map(read()))));
     }
 
+    // auxiliary function that groups pairs according to their key
     private Stream<Pair<KMap, List<VMap>>> combine(Stream<Pair<KMap, VMap>> mappedStream) {
 
         Map<KMap, List<VMap>> combinedMap = new TreeMap<>(this::compare);
@@ -31,9 +41,14 @@ public abstract class MapReduce<KIn, VIn, KMap, VMap, VOut> {
         mappedStream.forEach(pair -> {
             KMap key = pair.getKey();
             VMap value = pair.getValue();
+            /*
+                if the key has never been processed, associate an empty list to that key.
+                Add a value to the associated list, otherwise.
+             */
             combinedMap.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
         });
 
+        // returns a stream of key/{list of values} pairs.
         return combinedMap.entrySet().stream().map(entry -> new Pair<>(entry.getKey(), entry.getValue()));
 
     }
