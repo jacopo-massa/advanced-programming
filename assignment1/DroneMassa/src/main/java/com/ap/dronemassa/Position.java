@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.util.Random;
 
 /**
- * Auxiliary class which represents a pair (a point in screen coordinates)
+ * Auxiliary class which represents a pair of integers (a point in screen coordinates)
  */
 public class Position extends Point{
     

@@ -6,7 +6,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JLabel;
 
 /**
- * Extended JLabel, that also can manage listened properties of a Drone.
+ * Extended JLabel, that can also manage listened properties of a Drone.
  */
 public class DroneLabel extends JLabel implements PropertyChangeListener {    
     

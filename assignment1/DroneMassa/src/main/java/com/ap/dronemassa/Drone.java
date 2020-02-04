@@ -94,7 +94,7 @@ class CustomTimerTask extends TimerTask {
         
         /* 
          * create a new random position, bounded within the dimensions
-         * of the panel containing all the drones (Dimensions are specified into 'DroneGui', as static variables
+         * of the panel containing all the drones (Dimensions are specified into 'DroneGui', as static variables)
          */
         Position delta = Position.generateRandomDelta();
         Position curr = drone.getLoc();
