@@ -73,7 +73,7 @@ public class InvertedIndex extends MapReduce<String, List<Pair<String, Integer>>
     protected Stream<Pair<String, Pair<String, Integer>>> reduce(Stream<Pair<String, List<Pair<String, Integer>>>> combinedStream) {
         // for each word generate a stream on the lines containing it
         return combinedStream.map(word -> word.getValue().stream()
-                // for each pair <filename, List of <filename, lineNumber>>
+                // for each pair <word, List of <filename, lineNumber>>
                 // generate a stream of Pairs: <word, <filename, line>> that can be accepted by the write function
                 .map(file -> new Pair<>(word.getKey(), new Pair<>(file.getKey(), file.getValue()))))
                 .flatMap(Function.identity());
